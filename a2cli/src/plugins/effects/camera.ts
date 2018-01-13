@@ -1,11 +1,14 @@
+// Especificar aliases de las funcionalidades de la cámara.
+
 import * as MO from "moldeojs";
 
 export class moEffectCamera extends MO.moEffect {
+ //Objetos de moldeo
+  RM: MO.moRenderManager; //REnder Manager
+  GL: MO.moGLManager; // OpenGL
+  VMan: MO.moVideoManager; //manager de video
 
-  RM: MO.moRenderManager;
-  GL: MO.moGLManager;
-  VMan: MO.moVideoManager;
-
+  // -- gráfica --
   Plane: MO.moPlaneGeometry;
   Mat: MO.moMaterialBasic;
   Camera: MO.moCamera3D;
@@ -22,29 +25,26 @@ export class moEffectCamera extends MO.moEffect {
   m_pCameraTexture : MO.moTexture;
   m_CaptureDevice : MO.moCaptureDevice;
 
-  constructor() {
+  constructor() {  // bloque que se ejecuta una sola vez al principio, y sirve para llamar assets y que se carguen al principio.
     super();
     this.SetName("camera");
-
   }
 
-  Init(callback?:any): boolean {
-    this.RM = this.m_pResourceManager.GetRenderMan();
+  Init(callback?:any): boolean { // iniciamos el plugin
+    this.RM = this.m_pResourceManager.GetRenderMan(); 
     this.GL = this.m_pResourceManager.GetGLMan();
     this.VMan = this.m_pResourceManager.GetVideoMan();
 
 
     console.log(`moEffect${this.GetName()}.Init ${this.GetName()}`);
-    if (this.PreInit((res) => {
+    if (this.PreInit((res) => { // Antes de iniciar, ejecuta
 
-      this.m_CaptureDevice = new MO.moCaptureDevice();
-      this.m_CaptureDevice.m_Name = "default";
-      this.m_CaptureDevice.m_LabelName = "LIVEIN0";
-      this.m_CaptureDevice.m_SourceWidth = this.m_Config.Int("width");
-      this.m_CaptureDevice.m_SourceHeight = this.m_Config.Int("height");
+      this.m_CaptureDevice = new MO.moCaptureDevice(); // Crea una clase de dispositivo de captura.
+      this.m_CaptureDevice.m_Name = "default"; // Le pone un nombre
+      this.m_CaptureDevice.m_LabelName = "LIVEIN0"; // Crea un id
+      this.m_CaptureDevice.m_SourceWidth = this.m_Config.Int("width"); // Ancho del recurso
+      this.m_CaptureDevice.m_SourceHeight = this.m_Config.Int("height"); // Alto de recurso
       this.InitDevice("default");
-
-
 
       if (callback) callback(res);
     }) == false) {

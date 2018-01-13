@@ -1,5 +1,5 @@
 import { Http } from "@angular/http";
-import * as THREE from "three"; // * == a este typescript //  "three"
+import * as THREE from "three"; // * == a este typescript //  "three" == nodeModule
 
 import {
   MOfloat, MOdouble, MOulong,
